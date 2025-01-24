@@ -1,12 +1,13 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../Context/CartContext";
 import { useFireBase } from "../Context/Firebase";
 import { getAuth, signOut } from "firebase/auth";
+import { CartContext } from "../Context/CartContext";
+
 function Navbar() {
-  let useCart = useContext(CartContext);
   const fireBase = useFireBase();
   const auth = getAuth();
+  const { count } = useContext(CartContext);
 
   const handleSignOut = () => {
     signOut(auth)
@@ -25,7 +26,6 @@ function Navbar() {
           Home
         </Link>
       </li>
-
       <li className="me-5">
         <Link className="text-lg text-gray-700" to="/products">
           Product
@@ -33,17 +33,13 @@ function Navbar() {
       </li>
       <li className="me-5">
         <Link to="/cart" className="text-lg text-gray-700">
-          Cart ({useCart.cartList.length > 0 ? useCart.cartList.length : 0})
+          Cart ({count})
         </Link>
       </li>
       {fireBase.isLoggedIn ? (
         <li className="me-5">
-          {auth.currentUser?.email}
-          <button
-            onClick={handleSignOut}
-            className="text-lg text-gray-700"
-            to="/contact"
-          >
+          {auth.currentUser?.email || "Guest"}
+          <button onClick={handleSignOut} className="text-lg text-gray-700">
             Logout
           </button>
         </li>

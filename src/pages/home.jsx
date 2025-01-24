@@ -4,6 +4,7 @@ import HeroSection from "../component/heroSection";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import { config } from "../utils/config";
+import Loader from "../component/Loader";
 function Home() {
   const [singleProduct, setSingleProduct] = useState([]);
   const [heroSectionProduct, setHeroSectionProduct] = useState([]);
@@ -103,11 +104,3 @@ function Home() {
 }
 
 export default Home;
-
-const Loader = () => {
-  return (
-    <div className="flex items-center justify-center fixed left-0 top-0 bg-black/80 z-50 w-full h-screen transition-all ease-in-out duration-1000">
-      <h4 className="text-2xl text-white">Loading...</h4>
-    </div>
-  );
-};

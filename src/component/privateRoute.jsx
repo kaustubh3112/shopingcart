@@ -5,7 +5,6 @@ import { useEffect } from "react";
 const PrivateRoute = () => {
   const fireBase = useFireBase();
   const navigate = useNavigate();
-  console.log(fireBase);
   useEffect(() => {
     !fireBase.isLoggedIn && navigate("/login");
   }, [fireBase.isLoggedIn, navigate]);

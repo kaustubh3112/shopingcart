@@ -4,11 +4,14 @@ export const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const [cartList, setCartList] = useState([]);
+  const [count, setCount] = useState(0);
 
-  const data = localStorage.getItem("Cart");
   const getData = () => {
+    const data = localStorage.getItem("Cart");
     if (data) {
-      setCartList(JSON.parse(data));
+      const parsedData = JSON.parse(data);
+      setCartList(parsedData);
+      setCount(parsedData.length);
     }
   };
 
@@ -17,16 +20,23 @@ const CartProvider = ({ children }) => {
     const productExist = cart.some((item) => item.id === product.id);
     if (!productExist) {
       cart.push(product);
+      setCartList(cart);
+      setCount(cart.length);
+      localStorage.setItem("Cart", JSON.stringify(cart));
     }
-    localStorage.setItem("Cart", JSON.stringify(cart));
   };
 
   useEffect(() => {
     getData();
   }, []);
+  useEffect(() => {
+    setCount(cartList.length);
+  }, [cartList]);
 
   return (
-    <CartContext.Provider value={{ cartList, setCartList, addToCarthandler }}>
+    <CartContext.Provider
+      value={{ cartList, setCartList, addToCarthandler, count }}
+    >
       {children}
     </CartContext.Provider>
   );
